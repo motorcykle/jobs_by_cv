@@ -1,8 +1,11 @@
-import { pgTable, text } from 'drizzle-orm/pg-core';
-import { drizzle } from '@xata.io/drizzle';
-import { eq } from 'drizzle-orm';
-import { getXataClient } from './xata'; // Generated client
- 
-const xata = getXataClient();
+import { PrismaClient } from '@prisma/client'
+import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { createClient } from '@libsql/client'
 
-export const db = drizzle(xata);
+const libsql = createClient({
+  url: `${process.env.TURSO_DATABASE_URL}`,
+  authToken: `${process.env.TURSO_AUTH_TOKEN}`,
+})
+
+const adapter = new PrismaLibSQL(libsql)
+export const prisma = new PrismaClient({ adapter })
