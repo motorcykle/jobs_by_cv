@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import axios from "axios";
+import { FilePond } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
 
 export default function ListingsForm() {
   const [loading, setLoading] = useState(false);
@@ -49,12 +51,19 @@ export default function ListingsForm() {
   return (
     <section className="space-y-3">
       <h2 className="text-2xl">Upload your CV</h2>
-      <form onSubmit={handleSubmit} className="space-y-2" encType="multipart/form-data">
+      {/* <form onSubmit={handleSubmit} className="space-y-2" encType="multipart/form-data">
         <Input name="pdfFile" placeholder="Upload your CV here" type="file" accept=".pdf" />
         <Button type="submit" disabled={loading}>
           Get listings
         </Button>
-      </form>
+      </form> */}
+      <FilePond
+        server={{
+          process: '/api/listings',
+          fetch: null,
+          revert: null,
+        }}
+      />
     </section>
   );
 }
