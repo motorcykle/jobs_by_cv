@@ -7,9 +7,11 @@ export default function Home() {
 
   return (
     <main className="">
-      <p>{session?.data?.user?.name}</p>
-      <button onClick={() => signIn()}>Log in</button>
-      <button onClick={() => signOut()}>Log out</button>
+      <div className="max-w-6xl mx-auto border p-5">
+
+        
+
+      </div>
     </main>
   )
 }

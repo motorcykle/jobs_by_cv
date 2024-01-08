@@ -19,7 +19,24 @@ export const authOptions: AuthOptions = {
     async signIn(message) {
       console.log(message.isNewUser)
     }
-  }
+  },
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        return {...session, user: { ...session.user, id: token.sub}}
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: 'jwt',
+  },
 }
 
 const handler = NextAuth(authOptions)

@@ -1,3 +1,7 @@
 export default function page () {
-  return <p>listings</p>
+  return <main>
+    <div className="max-w-6xl mx-auto border p-5">
+      
+    </div>
+  </main>
 }
