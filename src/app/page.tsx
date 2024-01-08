@@ -13,10 +13,12 @@ export default function Home() {
       <div className="max-w-6xl mx-auto border p-5 space-y-7">
 
         <section className='space-y-3'>
-          <div className='border-b p-3 pb-5 border-dotted'>
-            <h1 className='text-4xl md:text-8xl'> <span className=' font-bold'>Get job listings,</span> <br /> based off of your cv.</h1>
-          </div>
-          <p className=' max-w-xl text-muted-foreground'>Upload your cv and let AI search for the jobs that match your CV content and get job listings for you to click on and apply.</p>
+          
+            <div className='border-b p-3 pb-5 border-dotted'>
+              <h1 className='text-4xl md:text-8xl'> <span className=' font-bold'>Get job listings,</span> <br /> based off of your cv.</h1>
+            </div>
+            <p className=' max-w-xl text-muted-foreground'>Upload your cv and let AI search for the jobs that match your CV content and get job listings for you to click on and apply.</p>
+          
         </section>
         
         <Button onClick={() => {
