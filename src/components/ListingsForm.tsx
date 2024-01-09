@@ -59,9 +59,18 @@ export default function ListingsForm() {
       </form> */}
       <FilePond
         server={{
-          process: '/api/listings',
           fetch: null,
           revert: null,
+          process: {
+            url: '/api/listings',
+            method: 'POST',
+            onload: (response) => {
+              console.log("***",JSON.parse(response).success)
+              return response
+            },
+            onerror: (response) => console.log(response),
+            
+          },
         }}
       />
     </section>

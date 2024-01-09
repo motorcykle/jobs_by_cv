@@ -63,7 +63,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         console.log('No files found.');
       }
 
-      console.log(parsedText)
+      // console.log(parsedText)
       
     } else {
       return NextResponse.json({ success: false }, { status: 401 })
