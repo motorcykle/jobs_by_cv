@@ -6,13 +6,20 @@ import { authOptions } from "../auth/[...nextauth]/route"
 import { promises as fs } from 'fs'; // To save the file temporarily
 import { v4 as uuidv4 } from 'uuid'; // To generate a unique filename
 import PDFParser from 'pdf2json'; // To parse the pdf
+import OpenAI from "openai";
+import { checkSubscription } from "@/lib/subscription"
+import { getFreeTries, updateFreeTries } from "@/lib/freetries"
+
+const openai = new OpenAI({ apiKey: process.env.OPEN_AI });
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions)
+  const freeTries = getFreeTries()
+  const isSubbed = checkSubscription()
 
   try {
-    if (session) {
+    if (session && (isSubbed || freeTries > 0)) {
       const formData: FormData = await req.formData();
       const uploadedFiles = formData.getAll('filepond');
 
@@ -23,27 +30,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const uploadedFile = uploadedFiles[1];
         console.log('Uploaded file:', uploadedFile);
 
-        // Check if uploadedFile is of type File
         if (uploadedFile instanceof File) {
-          // Generate a unique filename
           fileName = uuidv4();
 
           // Convert the uploaded file into a temporary file
           const tempFilePath = `/tmp/${fileName}.pdf`;
-
-          // Convert ArrayBuffer to Buffer
           const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
-
-          // Save the buffer as a file
           await fs.writeFile(tempFilePath, fileBuffer);
-
-          // Parse the pdf using pdf2json. See pdf2json docs for more info.
-
-          // The reason I am bypassing type checks is because
-          // the default type definitions for pdf2json in the npm install
-          // do not allow for any constructor arguments.
-          // You can either modify the type definitions or bypass the type checks.
-          // I chose to bypass the type checks.
           const pdfParser = new (PDFParser as any)(null, 1);
 
           // See pdf2json docs for more info on how the below works.
@@ -63,8 +56,25 @@ export async function POST(req: NextRequest, res: NextResponse) {
         console.log('No files found.');
       }
 
+
+
       // console.log(parsedText)
-      
+      const openaiRes = await openai.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: [
+              {
+                  role: "system",
+                  content: ``,
+              }
+          ],
+      });
+
+      if (openaiRes.created) {
+          // update tries
+          updateFreeTries()
+      }
+
+      return NextResponse.json({ response: openaiRes.choices[0]}, { status: 200 })
     } else {
       return NextResponse.json({ success: false }, { status: 401 })
     }
