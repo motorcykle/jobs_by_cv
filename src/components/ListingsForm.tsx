@@ -65,11 +65,9 @@ export default function ListingsForm() {
             url: '/api/listings',
             method: 'POST',
             onload: (response) => {
-              console.log("***",JSON.parse(response).success)
+              console.log("***",JSON.parse(response))
               return response
             },
-            onerror: (response) => console.log(response),
-            
           },
         }}
       />
