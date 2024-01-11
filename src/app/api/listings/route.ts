@@ -16,10 +16,16 @@ const completion = async (text: any) => {
     messages: [
       {
         role: "system",
-        content: `Based off of this CV: ${text}, look at the location mentioned in the cv and jobs that would fit and return me a link based on this structure: just replace [JOB] with fit job & [LOCATION] with fit location https://www.indeed.com/jobs?q=[JOB]&l=[LOCATION]&radius=50&sort=date`,
+        content: "You are an assistant that helps generate job search links based on CVs. Provide only the link without any additional text. Use [JOB] for the job, [LOCATION] for the location, and [COUNTRY] for the country. For example, for a fit job 'Software Engineer' in a fit location 'Barcelona' and a fit country 'Spain', the link should be https://[COUNTRY_CODE].indeed.com/jobs?q=Software%20Engineer&l=Barcelona&radius=50&sort=date if from the us then: https://indeed.com/jobs?q=Software%20Engineer&l=Barcelona&radius=50&sort=date",
+      },
+      {
+        role: "user",
+        content: `Based off of this CV: ${text}, look at the location and country mentioned. Suggest jobs that would fit and provide only the link.`,
       },
     ],
   });
+  
+  
 
   if (openaiRes.created) {
     // update tries
