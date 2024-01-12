@@ -1,9 +1,6 @@
 import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route"
 import { Session, getServerSession } from "next-auth";
 
-let freeTrials = 3
-
-
 export async function getFreeTries () {
   const session: any = await getServerSession(authOptions);
 
@@ -18,9 +15,7 @@ export async function getFreeTries () {
         }
       })
 
-
-
-      console.log("from", freeTries, "here")
+      return freeTries?.tries!
     }
   } catch (error) {
     console.error(error)
