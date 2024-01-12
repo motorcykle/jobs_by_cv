@@ -7,6 +7,7 @@ import PDFParser from 'pdf2json';
 import OpenAI from "openai";
 import { checkSubscription } from "@/lib/subscription";
 import { getFreeTries, updateFreeTries } from "@/lib/freetries";
+import { getListings } from "@/lib/pupp";
 
 const openai = new OpenAI({ apiKey: process.env.OPEN_AI });
 
@@ -32,13 +33,12 @@ const completion = async (text: any) => {
     updateFreeTries();
   }
 
-  console.log(openaiRes.choices[0]);
   return openaiRes.choices[0];
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
-  const freeTries = getFreeTries();
+  const freeTries = await getFreeTries();
   const isSubbed = checkSubscription();
 
   try {
@@ -74,8 +74,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
           // Now, the parsing is complete, and you can use parsed data
           const parsedText = pdfParser.getRawTextContent();
           const data = await completion(parsedText);
+          const listings = await getListings(data.message.content!)
 
-          return NextResponse.json({ data }, { status: 200 });
+          return NextResponse.json({ listings }, { status: 200 });
         } else {
           console.log('Uploaded file is not in the expected format.');
         }
@@ -87,7 +88,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
   } catch (error) {
     console.error(error);
+    return NextResponse.json({ success: false }, { status: 400 });
   }
-
-  return NextResponse.json({ success: true }, { status: 200 });
 }
