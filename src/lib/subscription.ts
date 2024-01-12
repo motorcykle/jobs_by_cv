@@ -1,6 +1,20 @@
-export function checkSubscription () {
+import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
-  // query for user sub
+export async function checkSubscription () {
+  const session: any = await getServerSession(authOptions);
 
-  return false
+  try {
+    if (session?.user) {
+      const subscription = await prisma.userSubscription.findUnique({
+        where: {
+          id: session?.user?.id,
+        }
+      })
+
+      return subscription
+    }
+  } catch (error) {
+    console.error(error)
+  }
 }

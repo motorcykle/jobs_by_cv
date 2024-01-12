@@ -39,7 +39,9 @@ const completion = async (text: any) => {
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
   const freeTries = await getFreeTries();
-  const isSubbed = checkSubscription();
+  const isSubbed = await checkSubscription();
+
+  console.log(isSubbed)
 
   try {
     if (session && (isSubbed || (freeTries && freeTries > 0))) {
