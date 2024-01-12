@@ -30,7 +30,8 @@ const completion = async (text: any) => {
 
   if (openaiRes.created) {
     // update tries
-    updateFreeTries();
+    const updateTries = await updateFreeTries();
+    console.log(updateTries)
   }
 
   return openaiRes.choices[0];
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const isSubbed = checkSubscription();
 
   try {
-    if (session && (isSubbed || freeTries > 0)) {
+    if (session && (isSubbed || (freeTries && freeTries > 0))) {
       const formData: FormData = await req.formData();
       const uploadedFiles = formData.getAll('filepond');
 
