@@ -27,14 +27,13 @@ const completion = async (text: any) => {
   });
   
   
-
+  let updatedTries;
   if (openaiRes.created) {
     // update tries
-    const updateTries = await updateFreeTries();
-    console.log(updateTries)
+    updatedTries = await updateFreeTries();
   }
 
-  return openaiRes.choices[0];
+  return { link: openaiRes.choices[0].message.content, remaining_tries: updatedTries?.tries };
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -75,9 +74,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
           // Now, the parsing is complete, and you can use parsed data
           const parsedText = pdfParser.getRawTextContent();
           const data = await completion(parsedText);
-          const listings = await getListings(data.message.content!)
+          const listings = await getListings(data.link!)
 
-          return NextResponse.json({ listings }, { status: 200 });
+          return NextResponse.json({ listings, remaining_tries: data.remaining_tries }, { status: 200 });
         } else {
           console.log('Uploaded file is not in the expected format.');
         }

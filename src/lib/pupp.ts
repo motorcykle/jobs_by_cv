@@ -22,7 +22,7 @@ export const getListings = async (link: string) => {
   });
 
   // Take a screenshot for debugging purposes
-  await page.screenshot({ path: 'screenshot.png' });
+  // await page.screenshot({ path: 'screenshot.png' });
 
   // Introduce a delay to ensure page content is loaded
   await page.waitForTimeout(2000);
