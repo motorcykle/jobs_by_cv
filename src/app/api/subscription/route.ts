@@ -1,18 +1,14 @@
 import { getServerSession } from "next-auth";
 import { authOptions, prisma } from "../auth/[...nextauth]/route";
 import { NextRequest, NextResponse } from "next/server";
+import { getSubscription } from "@/lib/getSubscription";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   const session: any = await getServerSession(authOptions);
 
   try {
     if (session) {
-      const subscription = await prisma.userSubscription.findFirst({
-        where: {
-          userId: session?.user?.id
-        }
-      })
-
+      const subscription = await getSubscription(session)
       return NextResponse.json({ subscription }, { status: 200 });
     } else {
       throw Error("user not logged in")

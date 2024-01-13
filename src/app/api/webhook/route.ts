@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "../auth/[...nextauth]/route";
 import { checkSubscription } from "@/lib/subscription";
+import { getSubscription } from "@/lib/getSubscription";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
       session.subscription as string
     );
       
-    const subInfo = await checkSubscription()
+    const subInfo = await getSubscription(session)
     console.log("51 webhook route", subInfo, "51")
 
     await prisma.userSubscription.update({

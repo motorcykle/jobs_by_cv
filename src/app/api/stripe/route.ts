@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { checkSubscription } from "@/lib/subscription";
 import { stripe } from "@/lib/stripe";
+import axios from "axios";
+import { getSubscription } from "@/lib/getSubscription";
 
 const return_url = process.env.NEXT_BASE_URL + "/";
 
@@ -11,7 +13,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   try {
     if (session) {
-      const isSubbed = await checkSubscription();
+      const isSubbed = await getSubscription(session);
       if (isSubbed) {
         // portal
         const stripePortal = await stripe.billingPortal.sessions.create({
@@ -57,7 +59,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       throw Error("user not logged in")
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return NextResponse.json({ success: false, error }, { status: 400 });
   }
 }

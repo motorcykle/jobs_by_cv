@@ -8,6 +8,7 @@ import OpenAI from "openai";
 import { checkSubscription } from "@/lib/subscription";
 import { getFreeTries, updateFreeTries } from "@/lib/freetries";
 import { getListings } from "@/lib/pupp";
+import { getSubscription } from "@/lib/getSubscription";
 
 const openai = new OpenAI({ apiKey: process.env.OPEN_AI });
 
@@ -39,9 +40,9 @@ const completion = async (text: any) => {
 export async function POST(req: NextRequest, res: NextResponse) {
   const session: any = await getServerSession(authOptions);
   const freeTries = await getFreeTries();
-  const isSubbed = await checkSubscription();
+  const isSubbed = await getSubscription(session);
 
-  console.log(isSubbed)
+  console.log(isSubbed, "44")
 
   try {
     if (session && (isSubbed || (freeTries && freeTries > 0))) {
