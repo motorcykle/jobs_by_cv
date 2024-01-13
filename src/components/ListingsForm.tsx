@@ -27,7 +27,7 @@ export default function ListingsForm() {
         const base64String = fileReader.result as string;
   
         try {
-          const response = await axios.post("http://localhost:3000/api/listings", { pdfText: base64String });
+          const response = await axios.post(process.env.NEXT_BASE_URL + "/api/listings", { pdfText: base64String });
   
           if (response) {
             // Handle successful response
