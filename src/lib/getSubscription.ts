@@ -1,4 +1,5 @@
-import { prisma } from "@/app/api/auth/[...nextauth]/route";
+import { prisma } from "./prisma";
+
 
 export async function getSubscription (session: any) {
   return await prisma.userSubscription.findFirst({

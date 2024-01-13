@@ -1,6 +1,4 @@
 "use client"
-
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { User, getServerSession } from "next-auth"
 import Dropdown from "./Dropdown"
 import { getSession, signIn, useSession } from "next-auth/react"

@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
+
 import { promises as fs } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import PDFParser from 'pdf2json';
@@ -9,6 +9,7 @@ import { checkSubscription } from "@/lib/subscription";
 import { getFreeTries, updateFreeTries } from "@/lib/freetries";
 import { getListings } from "@/lib/pupp";
 import { getSubscription } from "@/lib/getSubscription";
+import { authOptions } from "@/lib/AuthOptions";
 
 const openai = new OpenAI({ apiKey: process.env.OPEN_AI });
 

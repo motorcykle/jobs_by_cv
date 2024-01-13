@@ -1,10 +1,11 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
+
 import { checkSubscription } from "@/lib/subscription";
 import { stripe } from "@/lib/stripe";
 import axios from "axios";
 import { getSubscription } from "@/lib/getSubscription";
+import { authOptions } from "@/lib/AuthOptions";
 
 const return_url = process.env.NEXT_BASE_URL + "/";
 

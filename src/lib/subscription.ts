@@ -1,6 +1,4 @@
-import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route";
 import axios from "axios";
-import { getServerSession } from "next-auth";
 
 export async function checkSubscription () {
   try {

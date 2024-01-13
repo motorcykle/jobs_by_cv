@@ -2,9 +2,10 @@ import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { prisma } from "../auth/[...nextauth]/route";
+
 import { checkSubscription } from "@/lib/subscription";
 import { getSubscription } from "@/lib/getSubscription";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const body = await req.text();
