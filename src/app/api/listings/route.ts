@@ -40,7 +40,7 @@ const completion = async (text: any) => {
   return { link: openaiRes.choices[0].message.content, remaining_tries: updatedTries?.tries };
 };
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const session: any = await getServerSession(authOptions);
   const freeTries = await getFreeTries();
   const isSubbed = await getSubscription(session);
