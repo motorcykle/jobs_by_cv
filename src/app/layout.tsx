@@ -3,9 +3,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Provider from '@/components/client-provider'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
 import { ThemeProvider } from '@/components/theme-provider'
 import Header from '@/components/Header'
+import { authOptions } from '@/lib/AuthOptions'
 
 const inter = Inter({ subsets: ['latin'] })
 

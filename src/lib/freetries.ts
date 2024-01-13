@@ -1,5 +1,7 @@
-import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route"
+
 import { Session, getServerSession } from "next-auth";
+import { authOptions } from "./AuthOptions";
+import { prisma } from "./prisma";
 
 export async function getFreeTries () {
   const session: any = await getServerSession(authOptions);
