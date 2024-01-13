@@ -12,41 +12,44 @@ export default function ListingsForm() {
   const [loading, setLoading] = useState(false);
   const [listingsResponse, setListingsResponse] = useState <{ listings: [], remaining_tries: number} | null>(null)
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  console.log(`${process.env.NODE_ENV === 'production' ? process.env.NEXT_BASE_URL : ""}/api/listings`)
+  console.log(process.env.NEXT_BASE_URL, process.env.NODE_ENV)
+
+  // const handleSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
   
-    const formData = new FormData(e.target as HTMLFormElement);
-    const file = formData.get("pdfFile") as File;
+  //   const formData = new FormData(e.target as HTMLFormElement);
+  //   const file = formData.get("pdfFile") as File;
   
-    if (file) {
-      setLoading(true);
+  //   if (file) {
+  //     setLoading(true);
   
-      const fileReader = new FileReader();
+  //     const fileReader = new FileReader();
   
-      fileReader.onload = async () => {
-        const base64String = fileReader.result as string;
+  //     fileReader.onload = async () => {
+  //       const base64String = fileReader.result as string;
   
-        try {
-          const response = await axios.post(process.env.NEXT_BASE_URL + "/api/listings", { pdfText: base64String });
+  //       try {
+  //         const response = await axios.post(process.env.NEXT_BASE_URL + "/api/listings", { pdfText: base64String });
   
-          if (response) {
-            // Handle successful response
-            console.log("PDF text sent successfully");
-          } else {
-            // Handle error response
-            console.error("Failed to send PDF text");
-          }
-        } catch (error) {
-          // Handle fetch error
-          console.error("Fetch error:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
+  //         if (response) {
+  //           // Handle successful response
+  //           console.log("PDF text sent successfully");
+  //         } else {
+  //           // Handle error response
+  //           console.error("Failed to send PDF text");
+  //         }
+  //       } catch (error) {
+  //         // Handle fetch error
+  //         console.error("Fetch error:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
   
-      fileReader.readAsDataURL(file);
-    }
-  };
+  //     fileReader.readAsDataURL(file);
+  //   }
+  // };
   
   
 
