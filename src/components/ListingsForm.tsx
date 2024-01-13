@@ -13,7 +13,7 @@ export default function ListingsForm() {
   const [listingsResponse, setListingsResponse] = useState <{ listings: [], remaining_tries: number} | null>(null)
 
   console.log(`${process.env.NODE_ENV === 'production' ? process.env.NEXT_BASE_URL : ""}/api/listings`)
-  console.log(process.env.NEXT_BASE_URL, process.env.NODE_ENV)
+  console.log(process.env.NEXT_PUBLIC_URL, process.env.NODE_ENV)
 
   // const handleSubmit = async (e: FormEvent) => {
   //   e.preventDefault();
@@ -62,7 +62,7 @@ export default function ListingsForm() {
             fetch: null,
             revert: null,
             process: {
-              url: `${process.env.NODE_ENV === 'production' ? process.env.NEXT_BASE_URL : ""}/api/listings`,
+              url: `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_URL : ""}/api/listings`,
               method: 'POST',
               onload: (response) => {
                 setListingsResponse(JSON.parse(response))
