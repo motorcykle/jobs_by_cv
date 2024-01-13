@@ -7,9 +7,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   try {
     if (session) {
-      const subscription = await prisma.userSubscription.findUnique({
+      const subscription = await prisma.userSubscription.findFirst({
         where: {
-          id: session?.user?.id
+          userId: session?.user?.id
         }
       })
 

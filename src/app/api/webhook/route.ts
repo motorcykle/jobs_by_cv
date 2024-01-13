@@ -48,6 +48,7 @@ export async function POST(req: Request) {
     );
       
     const subInfo = await checkSubscription()
+    console.log("51 webhook route", subInfo, "51")
 
     await prisma.userSubscription.update({
       where: {
