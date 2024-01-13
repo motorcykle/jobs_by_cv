@@ -59,7 +59,7 @@ export default function ListingsForm() {
             fetch: null,
             revert: null,
             process: {
-              url: '/api/listings',
+              url: `${process.env.NODE_ENV === 'production' ? process.env.NEXT_BASE_URL : ""}/api/listings`,
               method: 'POST',
               onload: (response) => {
                 setListingsResponse(JSON.parse(response))
