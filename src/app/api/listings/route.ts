@@ -34,6 +34,8 @@ const completion = async (text: any) => {
     updatedTries = await updateFreeTries();
   }
 
+  console.log(updatedTries, "37")
+
   return { link: openaiRes.choices[0].message.content, remaining_tries: updatedTries?.tries };
 };
 
@@ -41,8 +43,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const session: any = await getServerSession(authOptions);
   const freeTries = await getFreeTries();
   const isSubbed = await getSubscription(session);
-
-  console.log(isSubbed, "44")
 
   try {
     if (session && (isSubbed || (freeTries && freeTries > 0))) {

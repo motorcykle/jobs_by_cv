@@ -24,10 +24,10 @@ export async function getFreeTries () {
 
 export async function updateFreeTries () {
   const session: any = await getServerSession(authOptions);
-  const currentTries = await getFreeTries()
+  const currentTries: any = await getFreeTries()
 
   try {
-    if (currentTries && session?.user && currentTries > 0) {
+    if (session?.user && currentTries > 0) {
       const updatedTries = await prisma.user.update({
         where: {
           id: session?.user?.id,
@@ -40,6 +40,8 @@ export async function updateFreeTries () {
         }
       })
       return updatedTries
+    } else {
+      return { tries: 0 }
     }
   } catch (error) {
     console.error(error)

@@ -6,9 +6,11 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
+import ListingAd from "./ListingAd";
 
 export default function ListingsForm() {
   const [loading, setLoading] = useState(false);
+  const [listingsResponse, setListingsResponse] = useState <{ listings: [], remaining_tries: number} | null>(null)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -49,28 +51,31 @@ export default function ListingsForm() {
   
 
   return (
-    <section className="space-y-3">
-      <h2 className="text-2xl">Upload your CV</h2>
-      {/* <form onSubmit={handleSubmit} className="space-y-2" encType="multipart/form-data">
-        <Input name="pdfFile" placeholder="Upload your CV here" type="file" accept=".pdf" />
-        <Button type="submit" disabled={loading}>
-          Get listings
-        </Button>
-      </form> */}
-      <FilePond
-        server={{
-          fetch: null,
-          revert: null,
-          process: {
-            url: '/api/listings',
-            method: 'POST',
-            onload: (response) => {
-              console.log("***",JSON.parse(response))
-              return response
+    <section>
+      <section className="space-y-3">
+        <h2 className="text-2xl">Upload your CV</h2>
+        <FilePond
+          server={{
+            fetch: null,
+            revert: null,
+            process: {
+              url: '/api/listings',
+              method: 'POST',
+              onload: (response) => {
+                setListingsResponse(JSON.parse(response))
+                console.log(JSON.parse(response))
+                return response
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </section>
+
+      {listingsResponse && (<section className="flex flex-col gap-3">
+        <h2 className="text-2xl">Listings</h2>
+        {listingsResponse?.listings?.map((listing: any) => <ListingAd key={listing?.link} listing={listing} />)}
+      </section>)}
+
     </section>
   );
 }
