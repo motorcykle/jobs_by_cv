@@ -37,7 +37,7 @@ const completion = async (text: any) => {
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const session = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions);
   const freeTries = await getFreeTries();
   const isSubbed = await checkSubscription();
 

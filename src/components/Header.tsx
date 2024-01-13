@@ -7,6 +7,7 @@ import { getSession, signIn, useSession } from "next-auth/react"
 import { Button } from "./ui/button"
 import Link from "next/link"
 import Image from "next/image"
+import SubscribeBillingBtn from "./SubscribeBillingBtn"
 
 export default function Header () {
   const session = useSession()
@@ -18,8 +19,11 @@ export default function Header () {
         <p className=" font-semibold text-muted-foreground">jobs<span className="underline">by</span>cv</p>
       </Link>
 
-      <div className="right">
-        {user ? <Dropdown user={user} /> : <Button onClick={() => signIn()}>Log in</Button>}
+      <div className="right flex items-center space-x-2">
+        {user ? <>
+          <SubscribeBillingBtn />
+          <Dropdown user={user} />
+        </> : <Button onClick={() => signIn()}>Log in</Button>}
       </div>
     </nav>
   </header>

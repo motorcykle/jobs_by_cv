@@ -1,19 +1,11 @@
 import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route";
+import axios from "axios";
 import { getServerSession } from "next-auth";
 
 export async function checkSubscription () {
-  const session: any = await getServerSession(authOptions);
-
   try {
-    if (session?.user) {
-      const subscription = await prisma.userSubscription.findUnique({
-        where: {
-          id: session?.user?.id,
-        }
-      })
-
-      return subscription
-    }
+    const { data } = await axios.get("/api/subscription")
+    return data.subscription
   } catch (error) {
     console.error(error)
   }

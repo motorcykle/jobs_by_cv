@@ -8,10 +8,10 @@ const return_url = process.env.NEXT_BASE_URL + "/";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   const session: any = await getServerSession(authOptions);
-  const isSubbed = await checkSubscription();
 
   try {
     if (session) {
+      const isSubbed = await checkSubscription();
       if (isSubbed) {
         // portal
         const stripePortal = await stripe.billingPortal.sessions.create({
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
               price_data: {
                 currency: "USD",
                 product_data: {
-                  name: "Regular",
+                  name: "Premium",
                   description: "Unlimited job searches!",
                 },
                 unit_amount: 700,
