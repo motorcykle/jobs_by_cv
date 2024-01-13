@@ -1,3 +1,6 @@
+[screen-capture.webm](https://github.com/motorcykle/jobs_by_cv/assets/51007395/cdc53fd1-8024-40ec-9060-30bfe7c441ab)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
